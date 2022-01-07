@@ -15,7 +15,6 @@ value = {
         "email": "test@example.com",
     },
 }
-
 value_list = [
         "Hello", 
         1234, 
@@ -35,8 +34,10 @@ value_list = [
             'password': 'hello' 
         }
     ]
-value_str = "12345"
-value_bytes = b"hello world"
+value_str = "{ 'email': 'test@example.com', 'password': 'test', 'user_info': { 'name': 'Test user', 'email': 'test@example.com', 'list': [ (1, 2, 3), 12.5 ] } }"
+value_str2 = "Hello World!"
+value_bytes = "{ 'email': 'test@example.com', 'password': 'test', 'user_info': { 'name': 'Test user', 'email': 'test@example.com' } }"
+value_bytes2 = b"hello world"
 value_tuple = ( 
         { 
             "email": "test@example.com", 
@@ -93,46 +94,13 @@ value_custom = {
     )
 }
 
-output = {
-    'email': 'redacted', 
-    'list': [
-        'Hello', 
-        1234, 
-        6.6789, 
-        ['A', 'B'], 
-        10.123, 
-        {
-            'email': 'redacted'
-        }
-    ], 
-    'user_info': {
-        'name': 'Test user', 
-        'user_info': {
-            'name': 'Test user', 
-            'email': 'redacted'
-        }, 
-        'email': 'redacted'
-    }, 
-    'tuple': (
-        {
-            'email': 'redacted', 
-            'user_info': {
-                'name': 'Test user', 
-                'email': 'redacted'
-            }
-        }, 
-        9999.1, 
-        ['HELLO']
-    )
-}
-
 def type_decision(data):
     if isinstance(data, list):
         return transform_list_data(data)
     elif isinstance(data, str):
-        return data
+        return string_to_dict(data)
     elif isinstance(data, bytes):
-        return data.decode()
+        return string_to_dict(data.decode())
     elif isinstance(data, dict):
         return transform_dict_data(data)
     elif isinstance(data, tuple):
@@ -189,10 +157,16 @@ def transform_tuple_data(data):
     
     return tuple(new_tuple)
 
+def string_to_dict(data):
+    try:
+        data = eval(data)
+        return transform_dict_data(data)
+    except SyntaxError:
+        print('Syntax Error')
+        return data
+
 def main():
-    #print(transform_dict_data(value_custom))
-    # list, str, bytes, dict, tuple, int, float
-    print(type_decision(value_custom))
+    print(type_decision(value))
 
 
 if __name__ == '__main__':
