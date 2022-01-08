@@ -64,8 +64,8 @@ value_tuple = (
 value_int = 123456
 value_float = 12.345
 value_custom = {
-    'data': 
-        [ {
+    'data': [
+         {
             "email": "test@example.com",
             "password": "test",
             "list": [
@@ -97,12 +97,14 @@ value_custom = {
                         "name": "Test user",
                         "email": "test@example.com",
                         "password": "test",
+                        "age": 21,
                     }
                 }, 
                 9999.10, 
                 ['HELLO'] 
             )
-        } ]
+        } 
+    ]
 }
 '''
 #endregion 
