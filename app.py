@@ -124,7 +124,7 @@ def data_transform_factory(data):
         else:
             return data_transform_factory(obj)
     elif isinstance(data, bytes):
-        obj = StringDataTransform(data, True).transform()    #   decode bytes to str before use a function
+        obj = StringDataTransform(data, True).transform()
         if isinstance(obj, bytes):
             return obj
         else:
